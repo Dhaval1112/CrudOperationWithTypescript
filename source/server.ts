@@ -1,9 +1,11 @@
 import http from 'http';
 import express from 'express';
+
 import bodyParser from 'body-parser';
 import logging from './config/logging';
 import config from './config/config';
 import sampleRoutes from './routes/sample';
+import bookRoutes from './routes/book';
 
 const NAMESPACE = 'Server';
 const router = express();
@@ -37,6 +39,7 @@ router.use((req, res, next) => {
 
 // Routes
 router.use('/sample', sampleRoutes);
+router.use('/api/books', bookRoutes);
 
 //  Because above routes not match so it's en error and for so it's (Error Handling Section)
 router.use((req, res, next) => {

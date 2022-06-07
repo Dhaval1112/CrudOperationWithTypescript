@@ -5,7 +5,11 @@ const BookSchema: Schema = new Schema(
     {
         title: { type: String, required: true },
         author: { type: String, required: String },
-        extraInformation: { type: String }
+        extraInformation: { type: String },
+        isDeleted: {
+            type: Boolean,
+            default: false
+        }
     },
     {
         timestamps: true

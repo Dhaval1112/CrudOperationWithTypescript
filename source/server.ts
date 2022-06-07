@@ -8,6 +8,11 @@ import sampleRoutes from './routes/sample';
 import bookRoutes from './routes/book';
 
 import mongoose from 'mongoose';
+import * as path from 'path';
+
+// extra work
+import getBooks from './controllers/book';
+import IBook from './interfaces/book';
 
 const NAMESPACE = 'Server';
 const router = express();
@@ -52,6 +57,19 @@ router.use((req, res, next) => {
 // Routes
 router.use('/sample', sampleRoutes);
 router.use('/api', bookRoutes);
+
+console.log('Directory path :: ', __dirname);
+router.set('views', path.join(__dirname, 'views'));
+router.set('view engine', 'ejs');
+
+router.get('/page', async (req, res) => {
+    const books = await getBooks.getOnlyBooks();
+
+    //const booksDetails = books;
+    console.log('BOOKS', books);
+
+    return res.render('index.ejs', { books: books });
+});
 
 //  Because above routes not match so it's en error and for so it's (Error Handling Section)
 router.use((req, res, next) => {

@@ -45,4 +45,21 @@ const getAllBooks = (req: Request, res: Response) => {
         });
 };
 
-export default { getAllBooks, createBook };
+const getOnlyBooks = async () => {
+    const books = Book.find()
+        .exec()
+        .then((results) => {
+            // console.log('RESULT :: ', results);
+
+            return results;
+        })
+        .catch((error) => {
+            return {
+                message: error.message,
+                error
+            };
+        });
+    return books;
+};
+
+export default { getAllBooks, createBook, getOnlyBooks };

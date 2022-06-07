@@ -10,15 +10,17 @@ const MONGO_OPTIONS = {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     keepAlive: true,
-    poolSize: 50,
     autoIndex: false,
     retryWrites: false,
     socketTimeoutMS: 30000
 };
 
 // mongodb connection string
+const MONGO_DB_CONNECTION_STRING = process.env.MONGO_URL || 'mongodb://localhost:27017/';
+
 const MONGO = {
-    MONGO_DB_CONNECTION_STRING: process.env.MONGO_URL
+    mongo_db_connection_string: MONGO_DB_CONNECTION_STRING,
+    mongo_options: MONGO_OPTIONS
 };
 
 // server configurations

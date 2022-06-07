@@ -7,8 +7,20 @@ import config from './config/config';
 import sampleRoutes from './routes/sample';
 import bookRoutes from './routes/book';
 
+import mongoose from 'mongoose';
+
 const NAMESPACE = 'Server';
 const router = express();
+
+// Connect to mongodb
+mongoose
+    .connect(config.mongo.mongo_db_connection_string, config.mongo.mongo_options)
+    .then((result) => {
+        logging.info(NAMESPACE, 'Connected to mongoDB!');
+    })
+    .catch((error) => {
+        logging.error(NAMESPACE, error.message, error);
+    });
 
 // LOGING REQUEST
 router.use((req, res, next) => {
@@ -39,7 +51,7 @@ router.use((req, res, next) => {
 
 // Routes
 router.use('/sample', sampleRoutes);
-router.use('/api/books', bookRoutes);
+router.use('/api', bookRoutes);
 
 //  Because above routes not match so it's en error and for so it's (Error Handling Section)
 router.use((req, res, next) => {

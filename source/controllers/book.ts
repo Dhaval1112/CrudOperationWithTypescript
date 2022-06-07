@@ -1,14 +1,48 @@
 import { Request, Response } from 'express';
+import mongoose from 'mongoose';
 import logging from '../config/logging';
+import Book from '../models/book';
 
 const NAMESPACE = 'SAMPLE CONTROLLER';
 
-const getAllBooks = (req: Request, res: Response) => {
-    logging.info(NAMESPACE, 'Sample Health check route called.. ');
+const createBook = (req: Request, res: Response) => {
+    let { author, title } = req.body;
 
-    return res.status(200).json({
-        message: "Book's get all books method and books controller..!"
+    const book = new Book({
+        _id: new mongoose.Types.ObjectId(),
+        author,
+        title
     });
+
+    book.save()
+        .then((result) => {
+            return res.status(201).json({
+                book: result
+            });
+        })
+        .catch((error) => {
+            return res.status(500).json({
+                message: error.message,
+                error
+            });
+        });
 };
 
-export default { getAllBooks };
+const getAllBooks = (req: Request, res: Response) => {
+    Book.find()
+        .exec()
+        .then((results) => {
+            return res.status(200).json({
+                books: results,
+                count: results.length
+            });
+        })
+        .catch((error) => {
+            return res.status(500).json({
+                message: error.message,
+                error
+            });
+        });
+};
+
+export default { getAllBooks, createBook };

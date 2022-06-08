@@ -62,4 +62,13 @@ const getOnlyBooks = async () => {
     return books;
 };
 
-export default { getAllBooks, createBook, getOnlyBooks };
+const getSingleBook = async (id: any) => {
+    console.log('In function', id);
+
+    const book = await Book.findById(id).exec();
+    console.log('DATA OF SING ::', book);
+
+    return book;
+};
+
+export default { getAllBooks, createBook, getOnlyBooks, getSingleBook };

@@ -12,22 +12,36 @@
             integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
             crossorigin="anonymous"
         />
-
-        <script>
-            function getUpdate(details) {
-                console.log(details);
-            }
-        </script>
     </head>
     <body>
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label for="updateTitle" class="form-label">title</label>
+                        <input type="text" id="updateTitle" class="form-control" aria-describedby="passwordHelpBlock" />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="container">
             <table class="table">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Id</th>
                         <th scope="col">Actions</th>
                     </tr>
                 </thead>
@@ -38,7 +52,7 @@
                         <td><%= books[i].title %></td>
                         <td><%= books[i].author %></td>
                         <td><%= books[i]._id %></td>
-                        <td><button onclick="getUpdate('<%= books[i]._id %>')">Edit</button> | <button>Delete</button></td>
+                        <td><button onclick="getUpdate('<%= books[i]._id %>')">Edit</button> | <button onclick="getDelete('<%= books[i]._id %>')">Delete</button></td>
                     </tr>
                     <% } %>
                 </tbody>
@@ -51,4 +65,29 @@
         integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
         crossorigin="anonymous"
     ></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script>
+        function getUpdate(details) {
+            console.log(details);
+            const updateTitle = document.getElementById('updateTitle');
+            $.ajax({
+                url: 'http://localhost:1337/api/book/singlebook?id=' + details,
+                type: 'GET',
+                dataType: 'json', // added data type
+                success: function (res) {
+                    console.log(res);
+                    updateTitle.setAttribute('value', res.title);
+                    alert(res);
+                }
+            });
+            $('#exampleModal').modal('toggle');
+        }
+
+        function getDelete(details) {
+            console.log(details);
+            $k;
+            $('#exampleModal').modal('toggle');
+        }
+    </script>
 </html>
